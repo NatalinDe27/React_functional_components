@@ -1,0 +1,11 @@
+body {
+    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    font-size:20px;
+    line-height: 120%;
+    color: #ffffff;
+    font-family: 'Open Sans', sans-serif;
+}
+
+h3 {
+    color: #FFF;
+}
