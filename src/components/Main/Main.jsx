@@ -11,15 +11,20 @@ const Main = () => {
     const [listOrder, setListOrder] = useState([]);
     const [selectedSort, setSelectedSort] = useState('');
 
-    const [counter, setCounter] = useState(1 );
-    function increment (counter) {
-        setCounter(counter + 1)
-    }
-    function decrement (counter) {
-        if (counter > 1 ) {
-            setCounter(counter - 1)
-        }
-    }
+    // const [counter, setCounter] = useState(1 );
+    // function increment (counter) {
+    //     setCounter(counter + 1)
+    // }
+    // function decrement (counter) {
+    //     if (counter > 1 ) {
+    //         setCounter(counter - 1)
+    //     }
+    // }
+
+    const updateCartItemCount = (newAmount, itemId) => {
+        setListOrder((prev) => ({ ...prev, [itemId]: newAmount }));
+    };
+
 
     const getData=()=>{
         fetch('./data.json'
@@ -48,9 +53,7 @@ const Main = () => {
         setSelectedSort(sort);
         setProducts([...products].sort((a, b) => a [sort].localeCompare(b[sort])))
     }
-    // let obj = {
-    // counter:1
-    // }
+
 
     const addNewProduct = (elem, ) => {
 
@@ -58,20 +61,25 @@ const Main = () => {
         listOrder.forEach(el => {
             if (el.id === elem.id) {
                 isInArray = true;
-                // setCounter(el.counter + 1)
+
             }
         })
-        elem.counter = 1
-        // const newProduct = {
-        //     ...elem,
-        //     ...obj,
-        // }
-        if (!isInArray) {
-            setListOrder([...listOrder, elem])
+        let obj = {
+            count: 1
         }
-
-
+        const newProduct = {
+            ...elem,
+            ...obj,
+        }
+        if (!isInArray) {
+            setListOrder([...listOrder, newProduct ])
+        }
+        if (isInArray) {
+           return  {...newProduct,  count: newProduct.count + 1 }
+        }
     }
+
+
 
 
     const removeProduct = ( product) => {
@@ -95,9 +103,12 @@ const Main = () => {
                 remove={removeProduct}
                 product={product}
                 key={product.id}
-                counter={product.counter}
-                increment={increment}
-                decrement={decrement}
+
+                // counter={product.counter}
+                // increment={increment}
+                // decrement={decrement}
+
+
 
             />
         )}
@@ -124,6 +135,7 @@ const Main = () => {
                             title={product.title}
                             price={product.price + ' $'}
                             image={product.image}
+
                             />
                     )
                 })}
